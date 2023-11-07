@@ -1,0 +1,52 @@
+@import "../../../App.scss";
+
+.main{
+    display: flex;
+    width: 100%;
+    background: var(--Dark-blue, #2D3F4F);
+    color: white;
+
+    .container{
+        padding: 20px 0;
+        @include responsive-width;
+        
+        .logo-and-other{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            
+            .other{
+                display: flex;
+                align-items: center;
+                
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    display: flex;
+                    
+                    li {
+                        margin-right: 20px;
+                        
+                        a{
+                            text-decoration: none;
+                            color: var(--White, #F4EBE7);
+                            font-family: Inter;
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+                }
+                select{
+                    margin-left: 20px;
+                    border: 'none';
+                    outline: 'none';
+                    background: inherit;
+                    
+                }
+            }
+        }
+    }
+    
+}

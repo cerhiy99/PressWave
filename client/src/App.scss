@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+}
+@mixin responsive-width{
+    margin: 0 auto;
+    @media (min-width: 1024px) {
+        width: 90%;
+      }
+    
+      @media (max-width: 1023px) and (min-width: 720px) {
+        width: 96%;
+      }
+    
+      @media (max-width: 719px) {
+        width: 98%;
+      }
+}
