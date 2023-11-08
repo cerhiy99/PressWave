@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import "./Home.scss";
+import ListCategories from "./ListCategories";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div className="home">
+      <ListCategories />
+    </div>
+  );
+};
 
-export default Home
+export default Home;

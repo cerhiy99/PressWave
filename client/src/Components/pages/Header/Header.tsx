@@ -3,6 +3,8 @@ import "./Header.scss";
 import { NavLink } from "react-router-dom";
 import { t } from "i18next";
 import { ImSearch } from "react-icons/im";
+import SetLanguage from "./SetLanguage";
+import Rs from "./Rs";
 
 const Header = () => {
   return (
@@ -30,12 +32,12 @@ const Header = () => {
                 <NavLink to="/Listen">{t("Header.Listen")}</NavLink>
               </li>
             </ul>
-            <ImSearch size={"25px"} />
-            <select>
-              <option value="option1">
-              </option>
-              <option value="option2">Option 2</option>
-            </select>
+            <div className="search">
+              <ImSearch size={"25px"} />
+            </div>
+            <div className="set-language">
+              <Rs />
+            </div>
           </div>
         </div>
       </div>

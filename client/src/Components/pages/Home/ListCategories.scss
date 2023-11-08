@@ -1,0 +1,61 @@
+@import "../../../App.scss";
+
+.list-categories{
+
+    background: var(--Brown, #AB9A8E);
+    
+    .list-categories-container{
+        @include responsive-width;
+        padding: 20px 0 20px 0;
+        white-space: nowrap;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        color: var(--Black, #100F1B);
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        width: 100%;
+
+        .container-hidden-categories{
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            .icon-dost{
+                display: flex;
+                align-self: self-end;
+                svg{
+                    display: flex;
+                }
+            }
+            @media (min-width:1024px) {
+                right: 5%;
+                top:130px;
+            }
+
+            @media (min-width:768px) and (max-width:1023px) {
+                right: 2%;
+                top:130px;
+            }
+        }
+        
+        .list-categories-value{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .categories{
+                margin-right: 30px;
+            }
+        }
+
+
+    
+
+    }
+
+}
