@@ -2,6 +2,8 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./App.scss";
+import { store } from './store'
+import { Provider } from 'react-redux';
 import "./utils/i18next"
 
 const root = ReactDOM.createRoot(
@@ -9,8 +11,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Suspense>
-      <App />
-    </Suspense>
+    <Provider store={store}>
+      <Suspense>
+        <App />
+      </Suspense>
+    </Provider>
   </React.StrictMode>
 );

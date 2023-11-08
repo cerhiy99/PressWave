@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "./ListCategories.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/reducers";
+import { useAction } from "../../../hoocks/useAcrion";
 
 const ListCategories = () => {
   const listCategories = [
@@ -27,12 +30,20 @@ const ListCategories = () => {
   ];
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [visibleCategories, setVisibleCategories] = useState<string[]>([]);
   const [hiddenCategories, setHiddenCategories] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(
     document.documentElement.clientWidth
   );
+  const { categories } = useSelector((state: RootState) => state.categories);
+
+  const { GetCategories } = useAction();
+
+  useEffect(() => {
+    GetCategories("UA");
+  }, []);
+
+  console.log(categories);
 
   useEffect(() => {
     const handleResize = () => {
