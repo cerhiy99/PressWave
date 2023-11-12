@@ -9,7 +9,6 @@ i18n
         translation:{
           Header:{
             Home:"Головна"
-
           }
         }
       },
@@ -21,6 +20,12 @@ i18n
             TV:"TV",
             Articles:"Articles",
             Listen:"Listen"
+          },
+          page404:{
+            title:`Page not found`,
+            description:"You can try go ",
+            description_a:"backto homepage.",
+            
           }
         }
     }

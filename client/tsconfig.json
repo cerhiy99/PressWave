@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/Components/pages/Page404/Page404.jsx"  ]
 }

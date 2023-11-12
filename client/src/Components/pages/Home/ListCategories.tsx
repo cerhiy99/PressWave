@@ -6,44 +6,26 @@ import { RootState } from "../../../store/reducers";
 import { useAction } from "../../../hoocks/useAcrion";
 
 const ListCategories = () => {
-  const listCategories = [
-    "Main",
-    "Latest",
-    "Most popular",
-    "Video",
-    "Sport",
-    "Health",
-    "Travel",
-    "Culture",
-    "Science",
-    "1War",
-    "M1ain",
-    "Late1st",
-    "Mo11st popular",
-    "Video1",
-    "Sport1",
-    "Health1",
-    "Trave2l",
-    "Cult3ure",
-    "Scien3ce",
-    "War",
-  ];
-
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hiddenCategories, setHiddenCategories] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(
     document.documentElement.clientWidth
   );
+  const [listCategories, setListCategories] = useState<
+    [{ id: number; name: string }] | []
+  >([]);
   const { categories } = useSelector((state: RootState) => state.categories);
 
   const { GetCategories } = useAction();
 
   useEffect(() => {
+    setListCategories(categories);
+  }, [categories]);
+
+  useEffect(() => {
     GetCategories("UA");
   }, []);
-
-  console.log(categories);
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,29 +40,35 @@ const ListCategories = () => {
   }, []);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.innerHTML = "";
+    if (listCategories.length > 0) {
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
 
-      for (let i = 0; i < listCategories.length; i++) {
-        containerRef.current.innerHTML += `
+        for (let i = 0; i < listCategories.length; i++) {
+          containerRef.current.innerHTML += `
               <div class="categories">
-                <p>${listCategories[i]}</p>
+                <p>${listCategories[i].name}</p>
               </div>`;
-        if (
-          (windowWidth > 1024 &&
-            containerRef.current.getBoundingClientRect().width >
-              windowWidth - windowWidth / 10) ||
-          (windowWidth > 768 &&
-            containerRef.current.getBoundingClientRect().width >
-              windowWidth - windowWidth / 20)
-        ) {
-          containerRef.current.lastChild?.remove();
-          setHiddenCategories(listCategories.slice(i));
-          break;
+          if (
+            (windowWidth > 1024 &&
+              containerRef.current.getBoundingClientRect().width >
+                windowWidth - windowWidth / 10) ||
+            (windowWidth > 768 &&
+              containerRef.current.getBoundingClientRect().width >
+                windowWidth - windowWidth / 20)
+          ) {
+            containerRef.current.lastChild?.remove();
+            if (listCategories.length >= i) {
+              setHiddenCategories(
+                listCategories.slice(i).map((item) => String(item.name))
+              );
+            }
+            break;
+          }
         }
       }
     }
-  }, [windowWidth]);
+  }, [windowWidth, listCategories]);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);

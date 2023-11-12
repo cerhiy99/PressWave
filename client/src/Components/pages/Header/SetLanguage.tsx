@@ -1,100 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SetLanguage.scss";
-import { AiOutlineDown } from "react-icons/ai";
-import Select from "react-select";
-import { components } from "react-select";
+import { BsChevronDown } from "react-icons/bs";
 
-const selectOptions = [
-  { value: "EN", label: "English", image: "/images/flag-velikobritanii.jpg" },
-  { value: "UA", label: "Українська", image: "/images/flag-Ukraine.jpg" },
-];
-
+interface itemsInterface {
+  id: number;
+  src: string;
+  code: string;
+}
 
 const SetLanguage = () => {
-  const [selectLanguage, setSelectlanguage] = useState("EN");
-  /*
-  const clickMain = () => {
-    if (selectLanguage !== "none") {
-      setSelectlanguage("none");
-    }
-  };
-  const clickFlag = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (selectLanguage === "none") {
-      setSelectlanguage(e.currentTarget.id);
-    }
-  };
-    */
-  const [selectLanguage1, setSelectlanguage1] = useState(selectOptions[0]);
+  const [isOpen, setIsOpen] = useState(false);
+  const items = [
+    { id: 1, src: "/images/FlagEN.png", code: "EN" },
+    { id: 2, src: "/images/FlagUA.png", code: "UA" },
+    { id: 3, src: "/images/FlagIN.png", code: "IN" },
+  ];
+  const [selectedItem, setSelectedItem] = useState<itemsInterface>(items[0]);
+  const [language, setLanguage] = useState<itemsInterface[]>(items.slice(1));
 
-  const clickMain = () => {
-    if (selectLanguage !== "none") {
-      setSelectlanguage("none");
-    }
-  };
+  useEffect(() => {}, [language]);
 
-  const clickFlag = (e: any) => {
-    if (selectLanguage === "none") {
-      setSelectlanguage(e.currentTarget.id);
-    }
-  };
-
-  const handleChange = (selectedOption: any) => {
-    setSelectlanguage(selectedOption);
+  const handleItemClick = (item: itemsInterface) => {
+    setSelectedItem(item);
+    setIsOpen(false);
+    setSelectedItem(item);
+    setLanguage(items.filter((element) => element.id !== item.id));
   };
 
   return (
-    <div
-      className={`main-set-language ${
-        selectLanguage === "none" ? "selected" : ""
-      }`}
-      onClick={clickMain}
-    >
-      <Select
-        options={selectOptions}
-        value={selectLanguage1}
-        onChange={handleChange}
-        isSearchable={false}
-        components={{ Option: CustomOption }}
-      />
-      {/*
-      <div className="set-language-container">
-        {selectLanguage === "EN" || selectLanguage === "none" ? (
-          <div onClick={(e) => clickFlag(e)} id="EN" className="flag">
-            <div className="img-flag">
-              <img
-                src="/images/flag-velikobritanii.jpg"
-                alt="flag velikobritanii"
-              />
+    <div className="dropdown-container" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className={`dropdown-header ${isOpen ? "dropdown-header-open" : ""}`}
+      >
+        <img src={selectedItem.src} alt="flag select country" />
+      </div>
+      {isOpen && (
+        <div className="dropdown-list">
+          {language.map((item) => (
+            <div
+              key={item.id}
+              className="dropdown-item"
+              onClick={() => handleItemClick(item)}
+            >
+              <img src={item.src} alt="flag country" />
             </div>
-
-            {selectLanguage === "none" ? <></> : <AiOutlineDown />}
-          </div>
-        ) : (
-          <></>
-        )}
-        {selectLanguage === "none" ? <>&nbsp;</> : <></>}
-        {selectLanguage === "UA" || selectLanguage === "none" ? (
-          <div onClick={(e) => clickFlag(e)} id="UA" className="flag">
-            <div className="img-flag">
-              <img src="/images/flag-Ukraine.jpg" alt="flag velikobritanii" />
-            </div>
-            {selectLanguage === "none" ? <></> : <AiOutlineDown />}
-          </div>
-        ) : (
-          <></>
-        )}
-        </div>*/}
+          ))}
+        </div>
+      )}
+      <div className={`down-arrow ${isOpen ? "down-arrow-open" : ""}`}>
+        <BsChevronDown size={20} />
+      </div>
     </div>
   );
 };
-const CustomOption = (props: any) => (
-  <components.Option {...props}>
-    <img
-      src={props.data.image}
-      alt={props.label}
-      style={{ width: "40px", marginRight: "10px" }}
-    />
-  </components.Option>
-);
 
 export default SetLanguage;

@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { t } from "i18next";
 import { ImSearch } from "react-icons/im";
 import SetLanguage from "./SetLanguage";
-import Rs from "./Rs";
 
 const Header = () => {
   return (
@@ -36,7 +35,7 @@ const Header = () => {
               <ImSearch size={"25px"} />
             </div>
             <div className="set-language">
-              <Rs />
+              <SetLanguage />
             </div>
           </div>
         </div>

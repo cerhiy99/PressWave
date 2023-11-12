@@ -1,68 +1,53 @@
-.main-set-language{
-    display: block;
-    flex-direction: column;
-    .set-language-container{
-        top: 35px;
-        right: 0%;
-        .flag{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
+$Dark-blue: #2D3F4F;
 
-            .img-flag{
-                width: 40px; 
-                margin-right: 5px;
-                img{
-                    width: 100%;
-                }
-            }
-        }
-    }
+.dropdown-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 
-}
-.selected{
-}
-.main-set-language {
-    width: 99px;
-  }
-  
-  .custom-option {
-    display: flex;
-    align-items: center;
-  }
-  
-  .custom-option-image {
-    width: 50px;
-    margin-right: 10px;
-  }
-
-  .custom-option1 {
+  .dropdown-header {
     cursor: pointer;
+    padding: 10px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    border: 1px solid var(--Brown, #2D3F4F);
+  }
+  .dropdown-header-open{
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    border: 1px solid var(--Brown, #AB9A8E);
+    margin-bottom: 0;
+  }
+
+  .dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border: 1px solid var(--Brown, #AB9A8E);
+    background: $Dark-blue;
+
+    .dropdown-item {
+      padding: 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+
+  .down-arrow {
     display: flex;
+    cursor: pointer;
+    transition: transform 0.4s ease-in-out;
     align-items: center;
-    width: 50px;
-    margin-top: 5px;
   }
-  
-  .custom-option-image1 {
-    width: 100%;
-    margin-right: 10px;
+  .down-arrow-open{
+    align-items: center;
+    transform: rotate(180deg);
   }
-  .css-1u9des2-indicatorSeparator{
-    display: none;
-  }
-  .css-fwk1hx-control{
-    margin-left: 19px;
-  }
-  .css-v9qyy8-IndicatorsContainer div{
-    width: 20px;
-    padding: 0;
-  }
-.css-1u9des2-indicatorSeparator{
-    display: none;
-    padding: 0;
 }
-.css-1stlcik-menu{
-    margin-left: 10px;
-    width: 30px;
-}
+

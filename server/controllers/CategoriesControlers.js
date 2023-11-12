@@ -7,8 +7,18 @@ class CategoriesControlers{
         try{
             const {language}=req.query;            
             const idLanguage=getIdLanguage(language);
-            const categories=await Categories.findAll({attributes:["id",`name${idLanguage}`]});
-            return resp.json({status:200,res:categories});
+            const categories = await Categories.findAll({
+                attributes: ["id", `name${idLanguage}`]
+              });
+              
+              const modifiedCategories = categories.map(category => {
+                return {
+                  id: category.id,
+                  name: category[`name${idLanguage}`]
+                };
+              });
+              
+              return resp.json({ status: 200, res: modifiedCategories });
         }catch(err){
             return next(ErrorApi.badRequest(err));
         }
@@ -18,19 +28,20 @@ class CategoriesControlers{
             const {name1,name2,name3}=req.body;
             console.log(req.body)
             const res=await Categories.create({name1,name2,name3});
-            return resp.json({status:200,res});
+            console.log(2);
+            return resp.json({status:200,res:res});
         }catch(err){
             return next(ErrorApi.badRequest(err));
         }
 
     }
-    static Update = async (req, res, next) => {
+    static Update = async (req, resp, next) => {
         try {
             const { id, name1, name2, name3 } = req.body;
             const result = await Categories.update({ name1, name2, name3 }, { where: { id } });
             
             if (result[0] === 1) {
-                res.json({ status: 200, message: "Data updated successfully" });
+                resp.json({ status: 200, message: "Data updated successfully" });
             } else {
                 return next(ErrorApi.notFound("Record not found"));
             }
