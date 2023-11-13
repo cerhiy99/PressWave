@@ -26,9 +26,7 @@ class CategoriesControlers{
     static Add=async(req,resp,next)=>{
         try{
             const {name1,name2,name3}=req.body;
-            console.log(req.body)
             const res=await Categories.create({name1,name2,name3});
-            console.log(2);
             return resp.json({status:200,res:res});
         }catch(err){
             return next(ErrorApi.badRequest(err));

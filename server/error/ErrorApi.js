@@ -24,6 +24,9 @@ class ErrorApi extends Error {
     static notFound() {
         return new ErrorApi(200, { status: 404, message: "Not Found" });
     }
+    static noAuth() {
+        return new ErrorApi(200, { status: 401, message: "Authentication Required" });
+    }
 }
 
 module.exports = ErrorApi;

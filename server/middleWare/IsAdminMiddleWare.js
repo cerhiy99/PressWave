@@ -7,9 +7,9 @@ module.exports = async (req, resp, next) => {
         if(isPasswordTrue){
             next();
         }else 
-            return next(ErrorApi.noAuth(err.message));
+            return next(ErrorApi.noAuth());
         
     } catch (err) {
-        return next(ErrorApi.internalServerError(err.message));
+        return next(ErrorApi.noAuth());
     }
 }
