@@ -1,17 +1,52 @@
 @import "../../../App.scss";
 
 .list-categories{
-
+    padding: 10px 0 10px 0;
+    width: 100%;
     background: var(--Brown, #AB9A8E);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .line{
+        @include responsive-width;
+        position: relative;
+        width: 100%;
+        border-top: 2px solid black;
+    }
+    .dropdown{
+        @include responsive-width;
+        font-size: 18px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        .hidden-categories{
+            color: var(--Black, #100F1B);
+            font-family: Inter;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            cursor: pointer;
+            margin-right: 40px;
+            transition: font-size 0.3s ease;    
+            
+            :hover{
+                font-size: 19px;
+                text-decoration: underline;
+                text-decoration-thickness: 2px;
+                text-underline-offset: 3px;
+            }
+        }
+    }
     
     .list-categories-container{
+        justify-content: center;
         @include responsive-width;
-        padding: 20px 0 20px 0;
         white-space: nowrap;
         cursor: pointer;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         color: var(--Black, #100F1B);
         font-family: Inter;
         font-size: 18px;
@@ -19,18 +54,14 @@
         font-weight: 400;
         line-height: normal;
         width: 100%;
+        align-items: center;
 
         .container-hidden-categories{
-            position: fixed;
             display: flex;
             flex-direction: column;
-            text-align: right;
+            justify-content: center;
             .icon-dost{
                 display: flex;
-                align-self: self-end;
-                svg{
-                    display: flex;
-                }
             }
             @media (min-width:1024px) {
                 right: 5%;
@@ -46,12 +77,24 @@
         .list-categories-value{
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            position: relative;
+            justify-content: center;
+            .retreat{
+                width: 30px;
 
+            }
             .categories{
-                margin-right: 30px;
+                width: auto;
+                margin-right: 10px;
+                transition: font-size 0.3s ease;
+                position: relative;
+                :hover{
+                    font-size: 19px;
+                    text-decoration: underline;
+                    text-decoration-thickness: 2px;
+                    text-underline-offset: 3px;
+                }
             }
         }
     }
-
 }
