@@ -39,7 +39,7 @@ const HashtagArticles=sequelize.define("hastagArticles",{
 
 const CategoriesArticles=sequelize.define("categorisArticles",{
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
+}); 
 
 Hashtag.hasMany(HashtagArticles);
 HashtagArticles.belongsTo(Hashtag);
