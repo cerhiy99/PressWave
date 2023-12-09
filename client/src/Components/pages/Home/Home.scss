@@ -1,5 +1,107 @@
 @import "../../../App.scss";
 
 .home{
-    
+    .title{
+        @include responsive-width;
+        .title-line{    
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            p{
+                font-family: Inter;
+                font-size: 42px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                white-space: nowrap;
+                margin-right: 10px;
+            }
+            .line{
+                width: 100%;
+                height: 2px; 
+                background-color: #000; 
+            }
+            .sort-by{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                white-space: nowrap;
+                .text{
+                    color: var(--Brown, #AB9A8E);
+                    font-family: Inter;
+                    font-size: 32px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+                .value{
+                    color: var(--Dark-blue, #2D3F4F);
+                    font-family: Inter;
+                    font-size: 32px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .line-container{
+        @include responsive-width;
+        text-align: center;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        p{  
+            white-space: nowrap;
+            color: var(--Dark-blue, #2D3F4F);
+            font-family: Inter;
+            font-size: 42px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            margin-right: 10px;
+        }
+        .line{
+            width: 100%;
+            height: 2px; // тут можна вказати бажану товщину лінії
+            background-color: #000; // тут можна вказати бажаний колір лінії
+        }
+        
+    }
+
+    .today-news{
+        @include responsive-width;
+    }
+    .for-you{
+        @include responsive-width;
+    }
+    .favorite-categories{
+        .mini-title-line{    
+            @include responsive-width;
+            height: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: #AB9A8E;
+            margin-bottom: 25px;
+            p{
+                font-family: Inter;
+                font-size: 42px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                white-space: nowrap;
+                margin-right: 10px;
+            }
+            .mini-line{
+                width: 100%;
+                height: 2px; 
+                background-color: #AB9A8E; 
+            }
+        }
+    }
 }

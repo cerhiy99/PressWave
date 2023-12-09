@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { useAction } from "../../../hoocks/useAcrion";
+import React, { useEffect, useState } from "react";
+import { useAction } from "../../../hoocks/useAction";
 import { Editor } from "@tinymce/tinymce-react";
+import i18n from "../../../utils/i18next";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/reducers";
 
 const AddArticles = () => {
-  const { AddArticles } = useAction();
+  const { AddArticles, GetCategories, GetHashtag } = useAction();
   const [name1, setName1] = useState<string>("");
   const [name2, setName2] = useState<string>("");
   const [name3, setName3] = useState<string>("");
@@ -19,14 +22,26 @@ const AddArticles = () => {
   const [timeReading, setTimeReading] = useState<string>("");
   const [isHot, setIsHot] = useState<boolean>(false);
   const [isHotMain, setIsHotMain] = useState<boolean>(false);
+  const { categories } = useSelector((state: RootState) => state.categories);
+  const { hastags } = useSelector((state: RootState) => state.hastag);
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedHastags, setSelectedHastags] = useState<string[]>([]);
+
+  useEffect(() => {
+    GetCategories(i18n.language);
+  }, [i18n.language]);
+
+  useEffect(() => {
+    GetHashtag();
+  }, []);
 
   const addAricles = () => {
-    console.log(image);
     AddArticles(
       name1,
       name2,
       name3,
-      (formatDate(date)),
+      formatDate(date),
       image,
       description1,
       description2,
@@ -37,7 +52,9 @@ const AddArticles = () => {
       time,
       timeReading,
       isHot,
-      isHotMain
+      isHotMain,
+      selectedCategories,
+      selectedHastags
     );
   };
   const formatDate = (date: Date): string => {
@@ -49,6 +66,28 @@ const AddArticles = () => {
     day = day < 10 ? `0${day}` : day;
 
     return `${year}-${month}-${day}`;
+  };
+
+  const setCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const idSelectCategory = event.target.id.slice(12);
+    const isCategorySet = event.target.checked;
+    if (isCategorySet) {
+      setSelectedCategories([...selectedCategories, idSelectCategory]);
+    } else {
+      setSelectedCategories(
+        selectedCategories.filter((x) => x != idSelectCategory)
+      );
+    }
+  };
+
+  const setHastag = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const idSelectHastag = event.target.id.slice(10);
+    const ishastagSet = event.target.checked;
+    if (ishastagSet) {
+      setSelectedHastags([...selectedHastags, idSelectHastag]);
+    } else {
+      setSelectedHastags(selectedHastags.filter((x) => x != idSelectHastag));
+    }
   };
 
   return (
@@ -131,6 +170,28 @@ const AddArticles = () => {
           onChange={(e) => setIsHotMain(e.target.checked)}
         />
       </div>
+      categories:
+      {categories.slice(3).map((category) => (
+        <div key={category.id} className="selectCategories">
+          {category.name}
+          <input
+            id={"category_id_" + category.id.toString()}
+            type="checkbox"
+            onChange={setCategory}
+          />
+        </div>
+      ))}
+      hastags:
+      {hastags.map((hastag) => (
+        <div key={hastag.id} className="select-hastag">
+          {hastag.name}
+          <input
+            id={"hastag_id_" + hastag.id}
+            type="checkbox"
+            onChange={setHastag}
+          />
+        </div>
+      ))}
       <Editor
         value={description1}
         apiKey="t6okxmezjfhajn8bk23u3dkejv0oc9c1qhs7gmmh9qskcfdp"

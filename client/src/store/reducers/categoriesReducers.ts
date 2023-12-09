@@ -6,7 +6,7 @@ export enum CategoriesTypes {
 }
 
 export interface CategoriesState {
-    categories: [{id:number,name:string}]|[];
+    categories: [{id:number,name:string,namePath:string}]|[];
     isAddsuccessful:boolean
 }
   
@@ -22,7 +22,6 @@ export const CategoriesReducer = (state = initialState, action: { type: Categori
             return { ...state, categories: action.payload };
         }
         case CategoriesTypes.CATEGORIES_ADD:{
-            console.log(action.payload);
             return {...state, isAddsuccessful:action.payload}
         }
         default:

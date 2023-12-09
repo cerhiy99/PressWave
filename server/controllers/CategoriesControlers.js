@@ -7,18 +7,37 @@ class CategoriesControlers{
         try{
             const {language}=req.query;            
             const idLanguage=getIdLanguage(language);
-            const categories = await Categories.findAll({
-                attributes: ["id", `name${idLanguage}`]
-              });
+            
+            let categories;
+            if(idLanguage===2){
+                categories = await Categories.findAll({
+                    attributes: ["id", `name${idLanguage}`]
+                }); 
+            }else{
+                categories = await Categories.findAll({
+                    attributes: ["id", `name${idLanguage}`,name2]
+                });
+            }
+            let modifiedCategories;
+            if(idLanguage===2){
+                modifiedCategories = categories.map(category => {
+                    return {
+                        id: category.id,
+                        name: category[`name2`],
+                        namePath:category['name2']
+                    };
+                });
+            }else{
+                modifiedCategories = categories.map(category => {
+                    return {
+                        id: category.id,
+                        name: category[`name${idLanguage}`],
+                        namePath:category['name2']
+                    };
+                });
+            }
               
-              const modifiedCategories = categories.map(category => {
-                return {
-                  id: category.id,
-                  name: category[`name${idLanguage}`]
-                };
-              });
-              
-              return resp.json({ status: 200, res: modifiedCategories });
+            return resp.json({ status: 200, res: modifiedCategories });
         }catch(err){
             return next(ErrorApi.badRequest(err));
         }

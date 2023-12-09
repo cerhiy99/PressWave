@@ -9,10 +9,8 @@ const Categories=sequelize.define("categories",{
 });
 
 const Hashtag=sequelize.define("hesteg",{
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name1:{type:DataTypes.STRING,allowNull:false},
-    name2:{type:DataTypes.STRING,allowNull:false},
-    name3:{type:DataTypes.STRING,allowNull:false}
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,unique:true },
+    name:{type:DataTypes.STRING,allowNull:false},
 });
 const Article = sequelize.define("article", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -39,7 +37,31 @@ const HashtagArticles=sequelize.define("hastagArticles",{
 
 const CategoriesArticles=sequelize.define("categorisArticles",{
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-}); 
+});
+
+const PrivacyPolicy=sequelize.define("privacyPolicy",{
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    text1:{type:DataTypes.TEXT,allowNull:false},
+    text2:{type:DataTypes.TEXT,allowNull:false},
+    text3:{type:DataTypes.TEXT,allowNull:false},
+    
+});
+
+const TermsOfUse=sequelize.define("termsOfUse",{
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    text1:{type:DataTypes.TEXT,allowNull:false},
+    text2:{type:DataTypes.TEXT,allowNull:false},
+    text3:{type:DataTypes.TEXT,allowNull:false},
+    
+});
+
+const Cookies=sequelize.define("cookies",{
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    text1:{type:DataTypes.TEXT,allowNull:false},
+    text2:{type:DataTypes.TEXT,allowNull:false},
+    text3:{type:DataTypes.TEXT,allowNull:false},
+    
+});
 
 Hashtag.hasMany(HashtagArticles);
 HashtagArticles.belongsTo(Hashtag);
@@ -54,4 +76,4 @@ CategoriesArticles.belongsTo(Article);
 Article.hasMany(HashtagArticles);
 HashtagArticles.belongsTo(Article);
 
-module.exports={Categories,Article,Hashtag,CategoriesArticles,HashtagArticles}
+module.exports={Categories,Article,Hashtag,CategoriesArticles,HashtagArticles,PrivacyPolicy,Cookies,TermsOfUse}

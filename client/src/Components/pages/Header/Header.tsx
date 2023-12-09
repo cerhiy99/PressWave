@@ -19,13 +19,13 @@ const Header = () => {
                 <NavLink to="/">{t("Header.Home")}</NavLink>
               </li>
               <li>
-                <NavLink to="/Main">{t("Header.Main")}</NavLink>
+                <NavLink to="/article">{t("Header.Main")}</NavLink>
               </li>
               <li>
                 <NavLink to="/TV">{t("Header.TV")}</NavLink>
               </li>
               <li>
-                <NavLink to="/Articles">{t("Header.Articles")}</NavLink>
+                <NavLink to="/article/all">{t("Header.Articles")}</NavLink>
               </li>
               <li>
                 <NavLink to="/Listen">{t("Header.Listen")}</NavLink>

@@ -3,12 +3,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import "./ListCategories.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/reducers";
-import { useAction } from "../../../hoocks/useAcrion";
+import { useAction } from "../../../hoocks/useAction";
+import i18n from "../../../utils/i18next";
+import { useNavigate } from "react-router-dom";
 
 const ListCategories = () => {
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hiddenCategories, setHiddenCategories] = useState<
-    [{ id: number; name: string }] | []
+    [{ id: number; name: string; namePath: string }] | []
   >([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isIcon, setIsIcon] = useState(true);
@@ -27,8 +30,8 @@ const ListCategories = () => {
   }, [categories]);
 
   useEffect(() => {
-    GetCategories("UA");
-  }, []);
+    GetCategories(i18n.language);
+  }, [i18n.language]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,12 +50,13 @@ const ListCategories = () => {
       if (listCategories.length > 0) {
         return listCategories.slice(index);
       }
-      return prevState; // якщо listCategories порожній, повертаємо попередній стан
+      return prevState;
     });
     if (hiddenCategories.length === 0) {
       setShowDropdown(false);
     }
   };
+
   useEffect(() => {
     if (listCategories.length > 0 && containerRef.current) {
       containerRef.current.innerHTML = "";
@@ -67,8 +71,8 @@ const ListCategories = () => {
         newDiv.appendChild(newParagraph);
         containerRef.current.appendChild(newDiv);
       }
-      let index = 0;
-      for (let i = 0; i < listCategories.length; i++) {
+      let index = 1;
+      for (let i = 1; i < listCategories.length; i++) {
         if (
           containerRef.current.lastChild instanceof HTMLElement &&
           containerRef.current.lastChild.className === "categories"
@@ -93,6 +97,7 @@ const ListCategories = () => {
         ) {
           const newDiv = document.createElement("div");
           newDiv.className = "categories";
+          newDiv.onclick = () => selectArticle(categories[i]);
 
           const newParagraph = document.createElement("p");
           newParagraph.textContent = listCategories[i].name;
@@ -120,6 +125,9 @@ const ListCategories = () => {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+  const selectArticle = (x: { id: number; name: string; namePath: string }) => {
+    navigate(`/article/${x.namePath}`);
+  };
   return (
     <div className="list-categories">
       <div className="list-categories-container">
@@ -141,8 +149,12 @@ const ListCategories = () => {
         <>
           <div className="line" />
           <div className="dropdown">
-            {hiddenCategories.map((x, idx) => (
-              <div key={x.id} className="hidden-categories">
+            {hiddenCategories.map((x) => (
+              <div
+                key={x.id}
+                onClick={() => selectArticle(x)}
+                className="hidden-categories"
+              >
                 <p>{x.name}</p>
               </div>
             ))}

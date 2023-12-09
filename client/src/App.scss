@@ -1,6 +1,18 @@
-body{
-    margin: 0;
+body {
+  min-height: 100vh;
+  margin: 0;
 }
+
+main {
+  min-height: 50vh;
+}
+
+footer {
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
 @mixin responsive-width{
     margin: 0 auto;
     @media (min-width: 1024px) {

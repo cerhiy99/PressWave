@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
-import { useAction } from "../../../hoocks/useAcrion";
+import { useAction } from "../../../hoocks/useAction";
 
 const AdminCategories = () => {
   const [lan1, setLan1] = useState<string>("");
