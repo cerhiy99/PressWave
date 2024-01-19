@@ -1,0 +1,35 @@
+.sort{
+    display: flex;
+    flex-direction: row;
+    .sort-by{
+        font-size: 40px;
+    }
+    .sort-options{
+        margin-left: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .sort-option{
+            margin-left: 5px;
+            font-size: 16px;
+            display: flex;
+            a{
+                text-decoration: none;
+                color: #AB9A8E;
+            }
+        }
+    }
+    .sort-option-active{
+        margin-left: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 28px;
+        display: flex;
+        a{
+            text-decoration: none;
+            color: #2D3F4F;
+            margin-bottom: none;
+        }
+    }
+}

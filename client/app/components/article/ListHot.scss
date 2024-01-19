@@ -1,0 +1,9 @@
+@import "../../../app/[lang]/App.scss";
+
+.list-hot{
+    @include responsive-width;
+    display:flexbox;
+    .loading{
+        padding-left: 35%;
+    }
+}

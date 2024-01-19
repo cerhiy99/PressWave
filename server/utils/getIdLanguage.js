@@ -1,4 +1,5 @@
 const getIdLanguage=(language)=>{
+    language=language.toUpperCase();
     return language==process.env.IDLANGUAGE1?
             1
         :

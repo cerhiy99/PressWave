@@ -11,5 +11,8 @@ router.get("/getMostPopular",ArticleControlers.GetMostPopular);
 router.get("/getForCategories",ArticleControlers.GetForCategories);
 router.get("/getVideo",ArticleControlers.GetVideo);
 router.get("/getMiniForId",ArticleControlers.GetMiniForId);
+router.get("/getPages",ArticleControlers.GetCountPages);
+router.get("/getArticlePosts",ArticleControlers.GetArticlePosts);
+router.get("/getForYou",ArticleControlers.GetForYou);
 
 module.exports=router;

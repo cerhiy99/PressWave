@@ -5,9 +5,8 @@ const getIdLanguage = require("../utils/getIdLanguage");
 class CategoriesControlers{
     static GetAll=async(req,resp,next)=>{
         try{
-            const {language}=req.query;            
-            const idLanguage=getIdLanguage(language);
-            
+            let {language}=req.query;            
+            const idLanguage=getIdLanguage(language.toUpperCase());
             let categories;
             if(idLanguage===2){
                 categories = await Categories.findAll({
@@ -15,7 +14,7 @@ class CategoriesControlers{
                 }); 
             }else{
                 categories = await Categories.findAll({
-                    attributes: ["id", `name${idLanguage}`,name2]
+                    attributes: ["id", `name${idLanguage}`,"name2"]
                 });
             }
             let modifiedCategories;
@@ -36,7 +35,6 @@ class CategoriesControlers{
                     };
                 });
             }
-              
             return resp.json({ status: 200, res: modifiedCategories });
         }catch(err){
             return next(ErrorApi.badRequest(err));
@@ -44,6 +42,7 @@ class CategoriesControlers{
     }
     static Add=async(req,resp,next)=>{
         try{
+            console.log(1)
             const {name1,name2,name3}=req.body;
             const res=await Categories.create({name1,name2,name3});
             return resp.json({status:200,res:res});
@@ -65,6 +64,17 @@ class CategoriesControlers{
         } catch (err) {
             return next(ErrorApi.badRequest(err));
         }
+    }
+
+    static getPosts=async(req,resp,next)=>{
+        try {
+            const categories = await Categories.findAll({attributes:[`name2`]});
+            let res = categories.map((x) => ({ category: x['name2'] }));
+            return resp.json(res);
+        }catch (err) {
+            // Обробіть помилку
+            return next(ErrorApi.badRequest());
+          }
     }
     
 }

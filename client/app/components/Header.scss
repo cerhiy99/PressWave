@@ -1,0 +1,93 @@
+@import "../../app/[lang]/App.scss";
+
+.main{
+    display: flex;
+    width: 100%;
+    background: var(--Dark-blue, #2D3F4F);
+    color: white;
+    .container-with-language{
+        padding: 20px;
+
+        display: flex;
+        justify-content: space-between;
+        @include responsive-width;
+        flex-direction: row;
+        .container{
+            width: 95%;            
+            .logo-and-other{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                @media (min-width:768px) {
+                    .mini-logo{
+                        display: none;
+                    }   
+                }
+                @media (max-width:768px) {
+                    .logo{
+                        display: none;   
+                    }
+                }
+                .other{
+                    display: flex;
+                    align-items: center;
+                    
+                    .search{
+                        margin-left: 15px;
+                    }
+                    
+                    @media (min-width:425px) {
+                        ul {
+                            list-style: none;
+                            padding: 0;
+                            display: flex;
+                            li {
+                                @media (min-width:768px) {
+                                    margin-left: 20px;
+                                }
+                                @media (max-width:768px) {
+                                    margin-left: 10px;
+                                }
+                                a{
+                                    text-decoration: none;
+                                    color: var(--White, #F4EBE7);
+                                    font-family: Inter;
+                                    @media (min-width:768px) {
+                                        font-size: 18px;   
+                                    }
+                                    @media (max-width:768px) {
+                                        font-size: 15px;   
+                                    }
+                                    
+                                    font-style: normal;
+                                    font-weight: 10;
+                                    line-height: normal;
+                                }
+                            }
+                        }
+                    }
+                    @media (max-width:425px) {
+                        ul{
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+        @media (max-width:425px) {
+            .set-language{
+                margin-left: 20px;
+            }
+        }
+        .burger{
+            margin-left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            @media (min-width:425px) {
+                display: none;   
+            }
+        }
+    }
+}

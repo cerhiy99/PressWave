@@ -1,0 +1,49 @@
+export interface ArticlesGetState{
+    id:number;
+    name:string;
+    date:Date;
+    image:string;
+    description:string;
+    countWatch:number;
+    isImage:boolean;
+    video:string;
+    time:string;
+    timeReading:string;
+    isHot:boolean;
+    isHotMain:boolean;
+    idCategories:{categoryId:number}[];
+    idHashtag:{hestegId:number}[];
+}
+export interface ArticlesGetInterface{
+    id:number;
+    name:string;
+    date:Date;
+    image:string;
+    description:string;
+    countWatch:number;
+    isImage:boolean;
+    video:string;
+    time:string;
+    timeReading:string;
+    isHot:boolean;
+    isHotMain:boolean;
+    idCategories:{categoryId:number}[];
+    idHashtag:{hestegId:number}[];
+}
+export interface articleState{
+    id:number;
+    name:string;
+    date:Date;
+    image:string;
+    description:string;
+    countWatch:number;
+    isImage:boolean;
+    video:string;
+    time:string;
+    timeReading:string;
+    isHot:boolean;
+    isHotMain:boolean;
+    idCategories:{categoryId:number}[];
+    idHashtag:{hestegId:number}[];
+    neigborArticle:ArticlesGetState[];
+}

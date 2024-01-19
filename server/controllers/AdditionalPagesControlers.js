@@ -5,7 +5,8 @@ const getIdLanguage = require("../utils/getIdLanguage");
 class AdditionalPagesControlers{
     static GetPrivacyPolicy=async(req,resp,next)=>{
         try{
-            const {language}=req.query;
+            let {language}=req.query;
+            console.log(1,language)
             const idLanguage=getIdLanguage(language)
             const privacyPolicy=await PrivacyPolicy.findOne({attributes:[`text${idLanguage}`]});
             const res=privacyPolicy[`text${idLanguage}`];
@@ -16,7 +17,7 @@ class AdditionalPagesControlers{
     }
     static GetTermsOfUse=async(req,resp,next)=>{
         try{
-            const {language}=req.query;
+            let {language}=req.query;
             const idLanguage=getIdLanguage(language)
             const termsOfUse=await TermsOfUse.findOne({attributes:[`text${idLanguage}`]});
             const res=termsOfUse[`text${idLanguage}`];
@@ -27,7 +28,7 @@ class AdditionalPagesControlers{
     }
     static GetCookies=async(req,resp,next)=>{
         try{
-            const {language}=req.query;
+            let {language}=req.query;
             const idLanguage=getIdLanguage(language)
             const cookies=await Cookies.findOne({attributes:[`text${idLanguage}`]});
             const res=cookies[`text${idLanguage}`];

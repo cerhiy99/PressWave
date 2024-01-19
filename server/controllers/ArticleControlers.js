@@ -23,16 +23,75 @@ class ArticleControlers{
             return next(ErrorApi.badRequest(err));
         }
     }
+    static GetForYou=async(req,resp,next)=>{
+        try{
+            const { limit, language }=req.query;
+            const idLanguage=getIdLanguage(language);
+            const articles=[];
+            for(let i=4;i<limit+4;i++){
+                let idArticles=await CategoriesArticles.findOne({attributes:['articleId'],where:{categoryId:4}});
+                const article=await Article.findOne({
+                    where:{id:idArticles.articleId},
+                    attributes: ['id', `name${idLanguage}`, 'date', 'image', `description${idLanguage}`, 'countWatch', 'isImage', 'video', 'time', 'isHot','timeReading'],
+                });
+                articles.push(article);
+            }
+            const res=await this.GetModifiedArticles(articles, idLanguage);
+            return resp.json({status:200,res});
+        }catch(err){
+            return next(ErrorApi.badRequest(err));
+        }
+    }
+    static GetCountPages=async(req,resp,next)=>{
+        try{
+            const { limit, category } = req.query;
+            if(category=="all"){
+                const totalItems = await Article.count();
+                const totalPages = Math.ceil(totalItems / parseInt(limit));
+                const res = [];
+                for (let page = 1; page <= totalPages; page++) {
+                    res.push({ page: page.toString() });
+                }
+                return resp.json({status:200, res });
+            }else{
+                const selectCategory=await Categories.findOne({where:{name2:category}});
+                const categoryId=selectCategory.id;
+                const totalItems = await CategoriesArticles.count({ where: { categoryId } });
+                const totalPages = Math.ceil(totalItems / parseInt(limit));
+                const res = [];
+                for (let page = 1; page <= totalPages; page++) {
+                    res.push({ page: page.toString() });
+                }
+                return resp.json({status:200, res });
+            }
+
+        }catch(err){
+            return next(ErrorApi.badRequest(err));
+        }
+    }
 
     static GetForCategories=async(req,resp,next)=>{
         try{
             let {language,limit,categoryId,page,sortBy}=req.query;
-            if(!page)page=1;
+            categoryId=parseInt(categoryId);
+            if(isNaN(parseInt(page))){
+                return next(ErrorApi.badRequest());
+            }
+            if(sortBy!='views'&&sortBy!='name'&&sortBy!='date'){
+                return next(ErrorApi.badRequest());
+            }
             const offset = (page - 1) * limit;
             limit=parseInt(limit);
             const idLanguage=getIdLanguage(language);
-            if(categoryId==-1){
-                
+            let nameCategory;
+            if(categoryId!=0)nameCategory=await Categories.findOne({where:{id:categoryId},attributes:['name2']});
+            else nameCategory='all'
+            /*if((nameCategory.name2=="most popular"&&sortBy!="views")
+                || nameCategory.name2=="latest"&&sortBy!='date'){
+                console.log(43534345345);
+                return next(ErrorApi.badRequest());
+            }*/
+            if(categoryId==-1){               
                 const count = await Article.count({
                     where: {
                         video: {
@@ -40,8 +99,6 @@ class ArticleControlers{
                         }
                     }
                 });
-                console.log(count)
-
                 const arrayArticles=await Article.findAll({
                     where:{video:{[Op.ne]:''}},
                     attributes: ['id', `name${idLanguage}`, 'date', 'image', `description${idLanguage}`, 'countWatch', 'isImage', 'video', 'time', 'isHot','timeReading'],
@@ -49,9 +106,9 @@ class ArticleControlers{
                 let res;
                 const modifiedArticles = await this.GetModifiedArticles(arrayArticles, idLanguage);
 
-                if (sortBy === "Name") {
+                if (sortBy === "name") {
                 res = modifiedArticles.slice().sort((a, b) => a.name.localeCompare(b.name));
-                } else if (sortBy === "Views") {
+                } else if (sortBy === "views") {
                 res = modifiedArticles.slice().sort((a, b) => b.countWatch - a.countWatch);
                 } else {
                 res = modifiedArticles.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -68,6 +125,8 @@ class ArticleControlers{
             }
             else if(categoryId==0){
                 const count =await Article.count();
+                if(offset>count)next(ErrorApi.badRequest());
+                if(count<limit*page)return next(ErrorApi.badRequest());
                 
                 const arrayArticles=await Article.findAll({
                     attributes: ['id', `name${idLanguage}`, 'date', 'image', `description${idLanguage}`, 'countWatch', 'isImage', 'video', 'time', 'isHot','timeReading'],
@@ -76,9 +135,9 @@ class ArticleControlers{
                 let res;
                 const modifiedArticles = await this.GetModifiedArticles(arrayArticles, idLanguage);
 
-                if (sortBy === "Name") {
+                if (sortBy === "name") {
                 res = modifiedArticles.slice().sort((a, b) => a.name.localeCompare(b.name));
-                } else if (sortBy === "Views") {
+                } else if (sortBy === "views") {
                 res = modifiedArticles.slice().sort((a, b) => b.countWatch - a.countWatch);
                 } else {
                 res = modifiedArticles.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -93,10 +152,11 @@ class ArticleControlers{
 
                 return resp.json({ status: 200, res, count });
             }
-            const nameCategory=await Categories.findOne({where:{id:categoryId},attributes:['name2']});
             
-            if(nameCategory.name2==="Latest"){
+            if(nameCategory.name2==="latest"){
                 const count=await Article.count();
+                if(offset>count)next(ErrorApi.badRequest());
+                if(count<limit*page)return next(ErrorApi.badRequest());
                 const articles = await Article.findAll({
                     limit,
                     offset,
@@ -104,8 +164,10 @@ class ArticleControlers{
                 });
                 const res=await this.GetModifiedArticles(articles, idLanguage);
                 return resp.json({ status: 200, res, count });
-            }else if(nameCategory.name2==="Most popular"){
+            }else if(nameCategory.name2==="most popular"){
                 const count=await Article.count();
+                if(offset>count)next(ErrorApi.badRequest());
+                if(count<limit*page)return next(ErrorApi.badRequest());
                 const articles = await Article.findAll({
                     limit,
                     offset,
@@ -117,6 +179,8 @@ class ArticleControlers{
             else{
                 let idArticles=await CategoriesArticles.findAll({attributes:['articleId'],where:{categoryId}});
                 const count =await CategoriesArticles.count({attributes:['articleId'],where:{categoryId}});
+                if(offset>count)next(ErrorApi.badRequest());
+                if(count<limit*page)return next(ErrorApi.badRequest());
                 if(idArticles.length>limit)idArticles=idArticles.slice(0);
                 let arrayArticles=[];
                 for(let i=0;i<idArticles.length;i++){
@@ -128,9 +192,9 @@ class ArticleControlers{
                 let res;
                 const modifiedArticles = await this.GetModifiedArticles(arrayArticles, idLanguage);
 
-                if (sortBy === "Name") {
+                if (sortBy === "name") {
                 res = modifiedArticles.slice().sort((a, b) => a.name.localeCompare(b.name));
-                } else if (sortBy === "Views") {
+                } else if (sortBy === "views") {
                 res = modifiedArticles.slice().sort((a, b) => b.countWatch - a.countWatch);
                 } else {
                 res = modifiedArticles.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -142,7 +206,7 @@ class ArticleControlers{
                 } else {
                 res = res.slice(offset, endIndex);
                 }
-
+                if(offset>count)next(ErrorApi.badRequest());
                 return resp.json({ status: 200, res, count });
             }
         }catch(err){
@@ -152,7 +216,7 @@ class ArticleControlers{
     static GetVideo=async(req,resp,next)=>{
         try{
             let { language, limit, page, sortBy } = req.query;
-        sortBy = sortBy || "Views";
+        sortBy = sortBy || "views";
         page=page||1;
         limit = parseInt(limit);
         const idLanguage = getIdLanguage(language);
@@ -167,9 +231,9 @@ class ArticleControlers{
             limit,
         });
         let res = await this.GetModifiedArticles(video, idLanguage);
-        if (sortBy === "Name") {
+        if (sortBy === "name") {
             res = res.slice().sort((a, b) => a.name.localeCompare(b.name));
-        } else if (sortBy === "Views") {
+        } else if (sortBy === "views") {
             res = res.slice().sort((a, b) => b.countWatch - a.countWatch);
         } else {
             res = res.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -202,6 +266,16 @@ class ArticleControlers{
             resp.json({status:200,res});
         }catch(err){
             return next(ErrorApi.badRequest(err));
+        }
+    }
+    static GetArticlePosts=async(req,resp,next)=>{
+        try{
+            const articles=await Article.findAll({attributes:['id']});
+            const res=articles.map(x=>[{selectarticle:x.id}]);
+
+            return resp.json({status:200,res});
+        }catch(err){
+            return next(ErrorApi.badRequest());
         }
     }
     static GetHot=async(req,resp,next)=>{
@@ -328,7 +402,9 @@ class ArticleControlers{
     }
     static GetForId=async(req,resp,next)=>{
         try{
+            console.log(req.query);
             const {id,language}=req.query;
+
             const idLanguage=getIdLanguage(language);
             const article=await Article.findOne({
                 where:{id},                

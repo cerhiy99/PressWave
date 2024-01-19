@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+
+
+  .paginationItem {
+    cursor: pointer;
+    padding: 8px;
+    margin: 2px;
+    border: 1px solid #ddd;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .active {
+    background-color: var(--Dark-blue, #2D3F4F);
+    color: white;
+    border-color: white;
+  }
+
+  a {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+}
+
+

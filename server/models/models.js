@@ -63,6 +63,30 @@ const Cookies=sequelize.define("cookies",{
     
 });
 
+const Music=sequelize.define("music",{
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    author:{type:DataTypes.STRING,allowNull:false},
+    src:{type:DataTypes.STRING,allowNull:false},
+    views:{type:DataTypes.INTEGER,defaultValue:0}
+});
+
+const Podcast=sequelize.define("podcast",{
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    author:{type:DataTypes.STRING,allowNull:false},
+    src:{type:DataTypes.STRING,allowNull:false},
+    views:{type:DataTypes.INTEGER,defaultValue:0}
+})
+
+const AudioNews=sequelize.define("audioNews",{
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    author:{type:DataTypes.STRING,allowNull:false},
+    src:{type:DataTypes.STRING,allowNull:false},
+    views:{type:DataTypes.INTEGER,defaultValue:0}
+})
+
 Hashtag.hasMany(HashtagArticles);
 HashtagArticles.belongsTo(Hashtag);
 
@@ -76,4 +100,5 @@ CategoriesArticles.belongsTo(Article);
 Article.hasMany(HashtagArticles);
 HashtagArticles.belongsTo(Article);
 
-module.exports={Categories,Article,Hashtag,CategoriesArticles,HashtagArticles,PrivacyPolicy,Cookies,TermsOfUse}
+module.exports={Categories,Article,Hashtag,CategoriesArticles,HashtagArticles,
+    PrivacyPolicy,Cookies,TermsOfUse,Music,Podcast,AudioNews};
